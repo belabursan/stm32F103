@@ -40,22 +40,20 @@ vpath %.c $(TEMPLATEROOT)/Library/ff9/src/option
 vpath %.c $(TEMPLATEROOT)/Library
 
 #  Processor specific
-PTYPE = STM32F10X_MD_VL 
+CPU = STM32F10X_MD 
 LDSCRIPT = $(TEMPLATEROOT)/STM32F103RBTx_FLASH.ld
 STARTUP= startup_stm32f10x.o system_stm32f10x.o 
 
 # Compilation Flags
 FULLASSERT = -DUSE_FULL_ASSERT
-CPU = -DSTM32F103xB
 
 LDFLAGS+= -T$(LDSCRIPT) -mthumb -mcpu=cortex-m3 -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs  
 LDFLAGS+= -Wl,-Map=output.map -Wl,--gc-sections -lm
 CFLAGS+= -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -D__weak="__attribute__((weak))"
 CFLAGS+= -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -std=gnu11
 CFLAGS+= -I$(TEMPLATEROOT) -I$(DEVICE) -I$(CORE) -I$(PERIPH)/inc -I.
-CFLAGS+= -D$(PTYPE) -DUSE_STDPERIPH_DRIVER $(FULLASSERT)
+CFLAGS+= -D$(CPU) -DUSE_STDPERIPH_DRIVER $(FULLASSERT)
 CFLAGS+= -I$(TEMPLATEROOT)/Library
-CFLAGS+= $(CPU)
 
 # verbose ??
 #CFLAGS+= -v
