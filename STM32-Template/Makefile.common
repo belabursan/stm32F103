@@ -1,4 +1,4 @@
-# name of executable
+# Executables
 ELF=$(notdir $(CURDIR)).elf
 HEX=$(notdir $(CURDIR)).hex
 
@@ -11,7 +11,7 @@ BUILDDIR=build
 TOOLROOT=/usr/local/gcc-arm-none-eabi-5_4-2016q2/bin
 
 # Library path
-LIBROOT=/home/bela/STM32/STM32F10x_StdPeriph_Lib_V3.5.0
+LIBROOT=$(TEMPLATEROOT)/stdperiflib_V3_5_0
 
 # Tools
 CC=$(TOOLROOT)/arm-none-eabi-gcc
@@ -50,15 +50,20 @@ CPU = -DSTM32F103xB
 
 LDFLAGS+= -T$(LDSCRIPT) -mthumb -mcpu=cortex-m3 -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs  
 LDFLAGS+= -Wl,-Map=output.map -Wl,--gc-sections -lm
-CFLAGS+= -v -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -D__weak="__attribute__((weak))"
-CFLAGS+= -Os -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -std=gnu11
+CFLAGS+= -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -D__weak="__attribute__((weak))"
+CFLAGS+= -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -std=gnu11
 CFLAGS+= -I$(TEMPLATEROOT) -I$(DEVICE) -I$(CORE) -I$(PERIPH)/inc -I.
 CFLAGS+= -D$(PTYPE) -DUSE_STDPERIPH_DRIVER $(FULLASSERT)
-CFLAGS+= -I$(TEMPLATEROOT)/Library/ff9/src -I$(TEMPLATEROOT)/Library
+CFLAGS+= -I$(TEMPLATEROOT)/Library
 CFLAGS+= $(CPU)
+
+# verbose ??
+#CFLAGS+= -v
 
 HEXSIZE = $(SZ) --target=$(FORMAT) $(HEX)
 MSG1=Hex file size:
+
+#$(OBJS): | $(BUILDDIR)
 
 # Build executable
 $(ELF) : $(OBJS)
