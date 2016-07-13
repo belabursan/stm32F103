@@ -35,3 +35,10 @@
 # Debug files
 *.dSYM/
 *.su
+
+#Mac
+.DS_Store
+
+#netbeans
+nbproject/
+.gdbprogram
